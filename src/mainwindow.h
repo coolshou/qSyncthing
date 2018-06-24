@@ -23,6 +23,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+public slots:
+    void syncthing_stop();
+    void app_exit();
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 private:
@@ -34,10 +38,9 @@ private:
     #endif
 
 private slots:
-    void app_exit();
+
     void run();
     void show_gui();
-    void syncthing_stop();
     void on_actionExit_triggered();
     void on_actionStart_Syncronization_triggered();
     void on_actionStop_Syncronization_triggered();

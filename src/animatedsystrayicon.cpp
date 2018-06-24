@@ -105,7 +105,7 @@ void AnimatedSysTrayIcon::doHideGUI()
 
 void AnimatedSysTrayIcon::trayExit()
 {
-    setVisible(false);
+    //setVisible(false);
     emit exitGUI();
 }
 

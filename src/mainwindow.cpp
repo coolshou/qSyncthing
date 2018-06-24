@@ -41,17 +41,19 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (tray->isVisible())
-        if (tray->supportsMessages())
+    if (tray->isVisible()){
+        if (tray->supportsMessages()){
             tray->showMessage("Info",
                                   "The program will keep running in the "
                                   "system tray. To terminate the program,"
                                   " choose <b>Quit</b> in the context "
                                   "menu of the system tray entry.");
-        else
+        }else{
             qDebug() << " System tray not supports balloon messages ";
+        }
         hide();
         event->ignore();
+    }
 }
 QString MainWindow::process_failed(QProcess::ProcessError state)
 {
@@ -69,6 +71,7 @@ void MainWindow::process_dataReady()
         QString msg = QString(process->readAll());
         if (msg != "")
         {
+            msg=msg.replace("\\n","");
             ui->consoletextedit->append(msg);
         }
         //# TODO: format the msg to remove extra b and \n
@@ -314,7 +317,7 @@ void MainWindow::init_systray()
 }
 void MainWindow::app_exit()
 {
-    QString sInfo =  'Quit ' + SYNCTHING + ' ?';
+    QString sInfo =  QString(L'Quit ').append(SYNCTHING).append(L' ?');
     bool the_conditional_is_true = QMessageBox::question(
         this, SYNCTHING, sInfo,
         QMessageBox::Yes | QMessageBox::No,
@@ -323,6 +326,8 @@ void MainWindow::app_exit()
         syncthing_stop();
         tray->stop_animate();
         exit(0);
+    }else{
+        //tray->setVisible(true);
     }
 }
 QStringList MainWindow::GetPIDbyName(char* ps_name)
