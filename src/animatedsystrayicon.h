@@ -3,32 +3,47 @@
 
 #include <QObject>
 #include <QWidget>
-#include <QIcon>
-#include <QTimer>
 #include <QSystemTrayIcon>
+#include <QTimer>
+#include <QList>
+#include <QIcon>
+#include <QMenu>
 
 class AnimatedSysTrayIcon : public QSystemTrayIcon
 {
+    Q_OBJECT
 public:
-    AnimatedSysTrayIcon(QIcon icon, QWidget *parent = 0);
-    void run();
+    AnimatedSysTrayIcon(const QIcon &icon, int interval=1, QWidget *parent = 0);
     void add_ani_icon(QIcon icon);
-    void animate_start();
-    void animate_stop();
+    void restore_icon();
+    void start_animate();
+    void stop_animate();
+    void schedule_timer(int interval);
+
+public slots:
+    void onAniTimerTimeout();
+    void stop();
+    void start();
+    void doShowGUI();
+    void doHideGUI();
+    void trayExit();
+signals:
+    void stopSync();
+    void startSync();
+    void showGUI();
+    void hideGUI();
+    void exitGUI();
 
 protected:
-    void schedule_timer();
     void update_trayicon();
-    void restore_icon();
-
 private:
-    int _interval;
+    QIcon mainicon;
     QTimer *ani_timer;
     bool ani_stop;
-    //schedule_lock;
     QList<QIcon> ani_icons;
     int ani_idx;
-    QIcon mainicon;
+    int _interval;
+    QMenu *traymenu;
 };
 
 #endif // ANIMATEDSYSTRAYICON_H

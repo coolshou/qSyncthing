@@ -38,6 +38,21 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (tray->isVisible())
+        if (tray->supportsMessages())
+            tray->showMessage("Info",
+                                  "The program will keep running in the "
+                                  "system tray. To terminate the program,"
+                                  " choose <b>Quit</b> in the context "
+                                  "menu of the system tray entry.");
+        else
+            qDebug() << " System tray not supports balloon messages ";
+        hide();
+        event->ignore();
+}
 QString MainWindow::process_failed(QProcess::ProcessError state)
 {
     //"""Read and return errors."""
@@ -272,31 +287,30 @@ void MainWindow::on_actionOpen_in_external_browser_triggered()
 }
 void MainWindow::init_systray()
 {
-    tray = new AnimatedSysTrayIcon(QIcon(pixmap_syncthingui), this);
+    tray = new AnimatedSysTrayIcon(QIcon(pixmap_syncthingui),1, this);
     tray->add_ani_icon(QIcon(pixmap_syncthingui0));
     tray->add_ani_icon(QIcon(pixmap_syncthingui1));
     tray->add_ani_icon(QIcon(pixmap_syncthingui2));
     tray->add_ani_icon(QIcon(pixmap_syncthingui3));
 
+
     //tray->setToolTip(__doc__.strip().capitalize());
-    traymenu = new QMenu(this);
-    traymenu->addAction(SYNCTHING)->setDisabled(true);
-    traymenu->addSeparator();
+    /*
     //# to test animate
     //# traymenu.addAction("start", lambda: self.tray.animate_start())
     //# traymenu.addAction("stop", lambda: self.tray.animate_stop())
     //# traymenu.addSeparator()
-    traymenu->addAction("Stop Sync", this ,SLOT(syncthing_stop()));
-    traymenu->addAction("Restart Sync", this ,SLOT(run()));
-    traymenu->addSeparator();
-    traymenu->addAction("Show", this ,SLOT(show_gui()));
-    traymenu->addAction("Hide", this ,SLOT(hide()));
-    traymenu->addSeparator();
     //# traymenu.addAction("Open Web", lambda: open_new_tab(URL))
     //# traymenu.addAction("Quit All", lambda: self.close())
-    traymenu->addAction("Quit All", this ,SLOT(app_exit()));
-    tray->setContextMenu(traymenu);
-    tray->show();
+    */
+    connect(tray, SIGNAL(startSync()), this, SLOT(run()));
+    connect(tray, SIGNAL(stopSync()), this, SLOT(syncthing_stop()));
+    connect(tray, SIGNAL(hideGUI()), this, SLOT(hide()));
+    connect(tray, SIGNAL(showGUI()), this, SLOT(show_gui()));
+    connect(tray, SIGNAL(exitGUI()), this, SLOT(app_exit()));
+    //tray->show();
+    tray->setVisible(true);
+
 }
 void MainWindow::app_exit()
 {
@@ -307,7 +321,7 @@ void MainWindow::app_exit()
         QMessageBox::No) == QMessageBox::Yes;
     if (the_conditional_is_true){
         syncthing_stop();
-        tray->animate_stop();
+        tray->stop_animate();
         exit(0);
     }
 }

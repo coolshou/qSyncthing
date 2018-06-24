@@ -7,6 +7,7 @@
 #include <QProcess>
 #include <QMenu>
 #include <QCheckBox>
+#include <QCloseEvent>
 
 #include "const.h"
 #include "animatedsystrayicon.h"
@@ -22,7 +23,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+protected:
+    void closeEvent(QCloseEvent *event) override;
 private:
     void init_gui();
     void init_systray();
