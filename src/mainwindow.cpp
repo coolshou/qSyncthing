@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     tf = QTransform();
-    pixmap_syncthingui = QPixmap(":/images/syncthingui.svg");
-    pixmap_syncthingui0 = QPixmap(":/images/syncthingui.svg");
+    pixmap_syncthingui = QPixmap(":/images/qSyncthing.svg");
+    pixmap_syncthingui0 = QPixmap(":/images/qSyncthing.svg");
     tf.rotate(90.0);
     pixmap_syncthingui1 = pixmap_syncthingui0.transformed(tf);
     tf.rotate(180.0);
@@ -71,7 +71,8 @@ void MainWindow::process_dataReady()
         QString msg = QString(process->readAll());
         if (msg != "")
         {
-            msg=msg.replace("\\n","");
+            //msg=msg.replace("\\n","");
+            msg=msg.remove("\n");
             ui->consoletextedit->append(msg);
         }
         //# TODO: format the msg to remove extra b and \n

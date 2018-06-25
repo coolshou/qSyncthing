@@ -2,6 +2,6 @@
     <qresource prefix="/">
         <file>images/start.svg</file>
         <file>images/stop.svg</file>
-        <file>images/syncthingui.svg</file>
+        <file>images/qSyncthing.svg</file>
     </qresource>
 </RCC>

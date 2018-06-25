@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=qSyncthing
+Comment=The GUI for syncthing written in Qt5
+Type=Application
+Exec=qSyncthing
+Icon=qSyncthing
+Terminal=false
+StartupNotify=true
+Categories=Network;

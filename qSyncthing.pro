@@ -38,3 +38,7 @@ FORMS += \
 
 RESOURCES += \
     src/qSyncthing.qrc
+
+DISTFILES += \
+    src/qSyncthing.desktop \
+    src/images/qSyncthing.svg
