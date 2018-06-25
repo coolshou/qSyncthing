@@ -61,7 +61,8 @@ QString MainWindow::process_failed(QProcess::ProcessError state)
 {
     //"""Read and return errors."""
     QString t = "ERROR:Fail:Syncthing blow up in pieces!";
-    ui->statusBar->showMessage(t);
+    //ui->statusBar->showMessage(t);
+    updateStatusMessage(t);
     qDebug() << t << "Wheres your God now?" << state;
     //return QString(process->readAllStandardError()).strip().lower();
     return QString(process->readAllStandardError());
@@ -87,8 +88,11 @@ void MainWindow::process_stateChanged(QProcess::ProcessState state)
 {
     //""" procress_stateChanged """
     //# TODO handle procress_stateChanged
-    qDebug() <<"procress_stateChanged: " << state ;//<<" \n sig:" << sig;
-
+    if (state == QProcess::NotRunning) {
+        qDebug() <<"procress_stateChanged: " << state ;//<<" \n sig:" << sig;
+        //updateStatusMessage(QString("syncthing status: %1").arg(state));
+        updateStatusMessage("syncthing status: NotRunning");
+    }
 }
 void MainWindow::init_gui()
 {
@@ -313,6 +317,11 @@ void MainWindow::app_exit()
     }else{
         //tray->setVisible(true);
     }
+}
+
+void MainWindow::updateStatusMessage(QString msg)
+{
+    ui->statusBar->showMessage(msg);
 }
 QStringList MainWindow::GetPIDbyName(char* ps_name)
 {

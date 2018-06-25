@@ -26,7 +26,7 @@ public:
 public slots:
     void syncthing_stop();
     void app_exit();
-
+    void updateStatusMessage(QString msg);
 protected:
     void closeEvent(QCloseEvent *event) override;
 private:
