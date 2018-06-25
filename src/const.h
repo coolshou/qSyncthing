@@ -1,6 +1,8 @@
 #ifndef CONST_H
 #define CONST_H
 
+#define APPNAME "qSyncthing"
+#define APPORG "coolshou.idv.tw"
 
 #define URL  "http://127.0.0.1:8384"
 #define SYNCTHING "syncthing"

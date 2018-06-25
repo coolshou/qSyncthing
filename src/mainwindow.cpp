@@ -6,12 +6,14 @@
 #include <QMessageBox>
 #include <QApplication>
 
+
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
     tf = QTransform();
     pixmap_syncthingui = QPixmap(":/images/qSyncthing.svg");
@@ -67,30 +69,13 @@ QString MainWindow::process_failed(QProcess::ProcessError state)
 void MainWindow::process_dataReady()
 {
         //"""get process stdout/strerr when data ready"""
-
         QString msg = QString(process->readAll());
         if (msg != "")
         {
-            //msg=msg.replace("\\n","");
             msg=msg.remove("\n");
             ui->consoletextedit->append(msg);
         }
-        //# TODO: format the msg to remove extra b and \n
-        /*
-        QString lines = msg.split("'");
-        QString tmp = lines[1];
-        tmp = tmp.splitlines(0);
-        lines = tmp[0].split("\\n");
-        */
-        /*TODO
-        for (line in lines)
-        {
-            if (line != "")
-            {
-                //# print("1: %s" % line)
-                ui->consoletextedit.append(line);
-            }
-        }*/
+
         ui->consoletextedit->ensureCursorVisible();
         //# autoscroll to last line's first character
         ui->consoletextedit->moveCursor(QTextCursor::End);
@@ -184,10 +169,6 @@ void MainWindow::finish_loading(bool finished)
         //# pass
     }
     qDebug() <<"finish_loading: " << finished;
-    //# TODO: WebEngineView does not have following function?
-    //# self.view.settings().clearMemoryCaches()
-    //# self.view.settings().clearIconDatabase()
-
     //# print("finish_loading %s" % datetime.strftime(datetime.now(),
     //#                                              '%Y-%m-%d %H:%M:%S'))
     //# TODO: following line need 6 sec to finish!!
@@ -210,8 +191,10 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::syncthing_stop()
 {
     //"""syncthing stop"""
-    qDebug() << "try to stop syncthing";
-    process->kill();
+    if (process->state() == process->Running) {
+        qDebug() << "try to stop syncthing";
+        process->kill();
+    }
     //
     QByteArray ba = QString(SYNCTHING).toLocal8Bit();
     char *c_str2 = ba.data();
@@ -318,7 +301,7 @@ void MainWindow::init_systray()
 }
 void MainWindow::app_exit()
 {
-    QString sInfo =  QString(L'Quit ').append(SYNCTHING).append(L' ?');
+    QString sInfo =  QString("Quit ").append(SYNCTHING).append(" ?");
     bool the_conditional_is_true = QMessageBox::question(
         this, SYNCTHING, sInfo,
         QMessageBox::Yes | QMessageBox::No,

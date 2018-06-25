@@ -31,7 +31,8 @@ SOURCES += \
 HEADERS += \
     src/mainwindow.h \
     src/const.h \
-    src/animatedsystrayicon.h
+    src/animatedsystrayicon.h \
+    src/version.h
 
 FORMS += \
     src/mainwindow.ui

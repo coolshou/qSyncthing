@@ -11,11 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>syncthingui</string>
+   <string>qSyncthing</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="syncthingui.qrc">
-    <normaloff>:/images/syncthingui.svg</normaloff>:/images/syncthingui.svg</iconset>
+   <iconset resource="qSyncthing.qrc">
+    <normaloff>:/images/qSyncthing.svg</normaloff>:/images/qSyncthing.svg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout" stretch="0">
@@ -94,7 +94,7 @@
      <x>0</x>
      <y>0</y>
      <width>749</width>
-     <height>24</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -372,7 +372,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="syncthingui.qrc"/>
+  <include location="qSyncthing.qrc"/>
  </resources>
  <connections/>
 </ui>
